@@ -7,9 +7,9 @@ from apps.account.models import Account
 from apps.preferences.models import SemSy, Unit2
 
 class Paper(models.Model):
-    proponent1 = models.ForeignKey(Account, related_name='paper_proponent1', on_delete=models.CASCADE)
-    proponent2 = models.ForeignKey(Account, related_name='paper_proponent2', on_delete=models.CASCADE)
-    proponent3 = models.ForeignKey(Account, related_name='paper_proponent3', on_delete=models.CASCADE)
+    proponent1 = models.ForeignKey(User, related_name='paper_proponent1', on_delete=models.CASCADE)
+    proponent2 = models.ForeignKey(User, related_name='paper_proponent2', on_delete=models.CASCADE)
+    proponent3 = models.ForeignKey(User, related_name='paper_proponent3', on_delete=models.CASCADE)
     semsy = models.ForeignKey(SemSy, related_name='paper_semsy', on_delete=models.CASCADE)
     course = models.ForeignKey(Unit2, related_name='paper_course', on_delete=models.CASCADE)
     mode = models.CharField(max_length=20)
@@ -17,8 +17,8 @@ class Paper(models.Model):
     abstract = models.TextField()
     slug = models.CharField(max_length=255, blank=True, null=True)
     is_accepted = models.BooleanField(default=False)
-    adviser = models.ForeignKey(Account, related_name='paper_adviser', on_delete=models.CASCADE)
-    co_adviser = models.ForeignKey(Account, related_name='paper_co_adviser', on_delete=models.CASCADE)
+    adviser = models.ForeignKey(User, related_name='paper_adviser', on_delete=models.CASCADE)
+    co_adviser = models.ForeignKey(User, related_name='paper_co_adviser', on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, related_name='paper_created', on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)

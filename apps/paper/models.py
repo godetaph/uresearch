@@ -1,13 +1,17 @@
+from apps.preferences.models import SemSy
 from django.db import models
 from django.db.models.base import Model
 
 from authentication.models import User
 from apps.account.models import Account
+from apps.preferences.models import SemSy, Unit2
 
 class Paper(models.Model):
     proponent1 = models.ForeignKey(Account, related_name='paper_proponent1', on_delete=models.CASCADE)
     proponent2 = models.ForeignKey(Account, related_name='paper_proponent2', on_delete=models.CASCADE)
     proponent3 = models.ForeignKey(Account, related_name='paper_proponent3', on_delete=models.CASCADE)
+    semsy = models.ForeignKey(SemSy, related_name='paper_semsy', on_delete=models.CASCADE)
+    course = models.ForeignKey(Unit2, related_name='paper_course', on_delete=models.CASCADE)
     mode = models.CharField(max_length=20)
     title = models.CharField(max_length=255)
     abstract = models.TextField()

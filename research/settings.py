@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'authentication',
+    'apps.preferences',
 ]
 
 MIDDLEWARE = [

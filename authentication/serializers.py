@@ -46,6 +46,7 @@ class LoginSerializer(serializers.ModelSerializer):
         max_length=68, min_length=6, write_only=True)
     username = serializers.CharField(
         max_length=255, min_length=3, read_only=True)
+    id = serializers.IntegerField(read_only=True)
     tokens = serializers.SerializerMethodField()
 
     def get_tokens(self, obj):
@@ -58,7 +59,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'username', 'tokens']
+        fields = ['email', 'password', 'username', 'tokens', 'id']
 
     def validate(self, attrs):
         email = attrs.get('email', '')
@@ -80,7 +81,8 @@ class LoginSerializer(serializers.ModelSerializer):
         return {
             'email': user.email,
             'username': user.username,
-            'tokens': user.tokens
+            'tokens': user.tokens,
+            'id' : user.id
         }
 
         return super().validate(attrs)
@@ -143,3 +145,9 @@ class LogoutSerializer(serializers.Serializer):
         except TokenError:
             self.fail('bad_token') 
             # raise ValidationError('Token is expired or invalid')
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'last_name', 'first_name', 'middle_name', 'ext_name', 'account_type', 
+                'contact_no', 'picture', 'username', 'email', 'is_verified', 'is_active', 'is_staff', 'is_admin']

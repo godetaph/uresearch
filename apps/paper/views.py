@@ -19,11 +19,11 @@ class AttachmentViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
 
 class PaperCommentViewSet(viewsets.ModelViewSet):
-    serializer_class = PaperComment
+    serializer_class = PaperCommentSerializer
     queryset = PaperComment.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
 class AttachmentCommentViewSet(viewsets.ModelViewSet):
-    serializer_class = AttachmentComment
+    serializer_class = AttachmentCommentSerializer
     queryset = AttachmentComment.objects.all()
     permission_classes = (permissions.IsAuthenticated,)

@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
             raise TypeError('Users should have a Email')
         if last_name is None:
             raise TypeError('Last name is required')
-        if first_name in None:
+        if first_name is None:
             raise TypeError('First name is required')
         if middle_name is None:
             raise TypeError('Middle name is required')
@@ -40,6 +40,13 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    ACCOUNT_TYPE = [
+        ('FACULTY', 'FACULTY'),
+        ('STUDENT', 'STUDENT'),
+        ('ADMIN', 'ADMIN'),
+        ('STAFF', 'STAFF')
+    ]
+
     username = models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     is_verified = models.BooleanField(default=False)
@@ -50,7 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100)
     ext_name = models.CharField(max_length=10, blank=True, null=True)
-    account_type = models.CharField(max_length=50, blank=True, null=True)
+    account_type = models.CharField(max_length=50, choices=ACCOUNT_TYPE, blank=True, null=True)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
     picture = models.ImageField(upload_to='media/user/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -49,3 +49,6 @@ class SemSy(models.Model):
     created_on = models.DateField(auto_now_add=True)
     modified_on = models.DateField(auto_now=True)
     created_by = models.ForeignKey(User, related_name='semsy_users', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.sem}-{self.sy}'

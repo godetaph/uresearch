@@ -14,14 +14,15 @@ from django.http import HttpResponsePermanentRedirect
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from rest_framework import generics, status, views, permissions
+from rest_framework import generics, status, views, permissions, viewsets
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
 from .models import User
 from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer,  \
-                ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, LogoutSerializer
+                ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer, LogoutSerializer, UserSerializer
 from .utils import Util
 from .renderers import UserRenderer
 
@@ -163,3 +164,21 @@ class LogoutAPIView(generics.GenericAPIView):
         serializer.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserListAPIView(ListCreateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = User.objects.all()
+
+    # def get_queryset(self):
+    #     email = self.request.query_params('email')
+    #     return self.queryset.filter(email=email)
+
+class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = User.objects.all()
+    lookup_field = 'id'
+
+    def get_queryset(self):
+        return self.queryset

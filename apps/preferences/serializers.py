@@ -14,11 +14,13 @@ class Unit1Serializer(serializers.ModelSerializer):
         model = Unit1
         fields = ['id', 'name', 'short_name', 'unit', 'created_on', 'modified_on',]
 
+#this is for the courses
 class Unit2Serializer(serializers.ModelSerializer):
     class Meta:
         model = Unit2
         fields = ['id', 'name', 'short_name', 'unit', 'created_on', 'modified_on',]
 
+#this is for the semester and schoolyear
 class SemSySerializer(serializers.ModelSerializer):
     class Meta:
         model = SemSy

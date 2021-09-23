@@ -50,5 +50,18 @@ class SemSy(models.Model):
     modified_on = models.DateField(auto_now=True)
     created_by = models.ForeignKey(User, related_name='semsy_users', on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['sy', 'sem',]
+
     def __str__(self):
         return f'{self.sem}-{self.sy}'
+
+class ReserchLevel(models.Model):
+    level = models.CharField(max_length=100)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    modified_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.level
+    

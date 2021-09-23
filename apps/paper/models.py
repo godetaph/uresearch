@@ -4,9 +4,16 @@ from django.db.models.base import Model
 
 from authentication.models import User
 from apps.account.models import Account
-from apps.preferences.models import SemSy, Unit2
+from apps.preferences.models import SemSy, Unit2, ReserchLevel
 
 class Paper(models.Model):
+    CAPSTONE = 'CAPSTONE'
+    THESIS = 'THESIS'
+    RESEARCH_TYPE =[
+        (CAPSTONE,'CAPSTONE'),
+        (THESIS, 'THESIS')
+    ]
+
     proponent1 = models.ForeignKey(User, related_name='paper_proponent1', on_delete=models.CASCADE)
     proponent2 = models.ForeignKey(User, related_name='paper_proponent2', on_delete=models.CASCADE)
     proponent3 = models.ForeignKey(User, related_name='paper_proponent3', on_delete=models.CASCADE)
@@ -15,6 +22,9 @@ class Paper(models.Model):
     mode = models.CharField(max_length=20)
     title = models.CharField(max_length=255)
     abstract = models.TextField()
+    research_level = models.ForeignKey(ReserchLevel, related_name='paper_research_level', on_delete=models.CASCADE)
+    research_type = models.CharField(max_length=50, choices=RESEARCH_TYPE, default=THESIS)
+    note = models.TextField(blank=True, null=True)
     slug = models.CharField(max_length=255, blank=True, null=True)
     is_accepted = models.BooleanField(default=False)
     adviser = models.ForeignKey(User, related_name='paper_adviser', on_delete=models.CASCADE)

@@ -1,3 +1,4 @@
+from typing import Type
 from django.db import models
 from django.contrib.auth.models import(AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.db import models
@@ -7,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, username, email, last_name, first_name, middle_name, password=None):
+    def create_user(self, username, email, last_name, first_name, middle_name, account_type, password=None):
         if username is None:
             raise TypeError('Users should have a username')
         if email is None:
@@ -18,17 +19,19 @@ class UserManager(BaseUserManager):
             raise TypeError('First name is required')
         if middle_name is None:
             raise TypeError('Middle name is required')
+        if account_type is None:
+            raise TypeError('Account type is required.')
 
-        user = self.model(username=username, email=self.normalize_email(email), last_name=last_name, first_name=first_name, middle_name=middle_name)
+        user = self.model(username=username, email=self.normalize_email(email), last_name=last_name, first_name=first_name, middle_name=middle_name, account_type=account_type)
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, username, email, last_name, first_name, middle_name, password=None):
+    def create_superuser(self, username, email, last_name, first_name, middle_name, account_type, password=None):
         if password is None:
             raise TypeError('Password should not be none')
 
-        user = self.create_user(username, email,last_name, first_name, middle_name,  password)
+        user = self.create_user(username, email,last_name, first_name, middle_name, account_type, password)
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -67,7 +70,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     #     null=False, default=AUTH_PROVIDERS.get('email'))
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'last_name', 'first_name', 'middle_name']
+    REQUIRED_FIELDS = ['username', 'last_name', 'first_name', 'middle_name', 'account_type']
 
     objects = UserManager()
 
